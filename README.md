@@ -1,6 +1,6 @@
 ![](images/ikmb_bfx_logo.png)
 
-# Pipeline
+# IKMB Nanopore Variant Calling
 
 ## Documentation 
 
