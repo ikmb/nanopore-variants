@@ -26,6 +26,8 @@ process PEPPER_PIPELINE {
 		-o $outdir \
 		-p ${meta.sample_id} \
 		-t ${task.cpus} \
+		--phased-output \
+		--keep_intermediate_bam_files \
 		$options
 	"""
 }
