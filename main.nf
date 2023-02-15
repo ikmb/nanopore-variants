@@ -25,15 +25,15 @@ run_name = ( params.run_name == false) ? "${workflow.sessionId}" : "${params.run
 WorkflowMain.initialise(workflow, params, log)
 WorkflowPipeline.initialise( params, log)
 
-include { MAIN } from './workflows/main' params(params)
+include { NANOPORE_VARIANTS } from './workflows/nanopore_variants' params(params)
 
 multiqc_report = Channel.from([])
 
 workflow {
 
-	MAIN()
+	NANOPORE_VARIANTS()
 
-	 multiqc_report = multiqc_report.mix(MAIN.out.qc)
+	multiqc_report = multiqc_report.mix(NANOPORE_VARIANTS.out.report)
 }
 
 workflow.onComplete {

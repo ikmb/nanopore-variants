@@ -9,13 +9,11 @@ class WorkflowPipeline {
     //
     public static void initialise(params, log) {
 
-
         if (!params.run_name) {
 		log.info  "Must provide a run_name (--run_name)"
-	        System.exit(1)
+            System.exit(1)
         }
     
-
     }
 
 }
