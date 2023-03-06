@@ -16,12 +16,14 @@ include { SAMTOOLS_INDEX } from '../modules/samtools/index'
 include { INPUT_CHECK } from '../modules/input_check'
 include { SOFTWARE_VERSIONS } from '../modules/software_versions'
 include { MULTIQC } from './../modules/multiqc'
+include { DEEPVARIANT } from './../modules/deepvariant'
 
 samplesheet = Channel.fromPath( file(params.samplesheet, checkIfExists: true) )
 
 ch_versions = Channel.from([])
 ch_qc = Channel.from([])
 ch_reports = Channel.from([])
+ch_vcfs = Channel.from([])
 
 workflow NANOPORE_VARIANTS {
 
@@ -52,17 +54,28 @@ workflow NANOPORE_VARIANTS {
 		)
 	)	
 
-	PEPPER_PIPELINE(
-		SAMTOOLS_INDEX.out.bam,
-		ch_fasta.collect()
-	)
+	if (params.ont_R104) {
+		DEEPVARIANT(
+			SAMTOOLS_INDEX.out.bam,
+			ch_fasta.collect()
+		)
+		ch_vcfs = ch_vcfs.mix(DEEPVARIANT.out.vcf)
+	} else {
+	
+		PEPPER_PIPELINE(
+			SAMTOOLS_INDEX.out.bam,
+			ch_fasta.collect()
+		)
+		ch_vcfs = ch_vcfs.mix(PEPPER_PIPELINE.out.vcf)
+	}
 
 	SOFTWARE_VERSIONS(
 		ch_versions.collect()
 	)		
-    MULTIQC(
+
+	MULTIQC(
 		ch_qc
-    )
+    	)
 
 	emit:
 	report = ch_reports

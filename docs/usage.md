@@ -22,6 +22,7 @@ If a sample ID occurs multiple times, it is assumed that it was sequenced across
 then merged into one master BAM file with all readgroup information intact.
 
 The readgroup ID is a unique identifier for data that comes from the same run, flowcell and lane (usually: one fastq file). This can be used by some callers to deal with artifacts arising from batch effects etc. 
+
 ## --assembly [ default = GRCh38_p14]
 
 By default, this pipeline uses GRCh38 Patch14 as mapping reference. 
@@ -34,4 +35,8 @@ By default, this pipeline uses GRCh38 Patch14 as mapping reference.
 ## --regions [default = chr11:1074875-1094425]
 
 Calling with this pipeline can be limited to a specific region using `--region chr1:1-10000`. To disable this and use the whole genome, set `--regions false`.
+
+## --ont_R104 [ default = false ]
+
+Data was generated with the current R104 chemistry; will run Deepvariant 1.5. Else the PEPPER-Margin-Deepvariant pipeline is run. 
 
