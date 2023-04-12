@@ -19,6 +19,11 @@ process DEEPVARIANT {
         dv_gvcf = meta.sample_id + "-deepvariant.g.vcf.gz"
         dv_vcf = meta.sample_id + "-deepvariant.vcf.gz"
 
+	def options = ""
+	if (bed) {
+		options = "--bed $bed"
+	}
+
         """
                 /opt/deepvariant/bin/run_deepvariant \
                 --model_type=ONT_R104 \
@@ -28,6 +33,7 @@ process DEEPVARIANT {
                 --output_gvcf=$dv_gvcf \
                 --regions=$bed \
                 --num_shards=${task.cpus} \
+		$options
         """
 }
 

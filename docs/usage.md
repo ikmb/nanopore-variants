@@ -36,6 +36,10 @@ By default, this pipeline uses GRCh38 Patch14 as mapping reference.
 
 Calling with this pipeline can be limited to a specific region using `--region chr1:1-10000`. To disable this and use the whole genome, set `--regions false`.
 
+## --bed [ default = null ]
+
+Provide a BED file with calling regions. This only works with the --ont_R104 flag and DeepVariant >= 1.5. 
+
 ## --ont_R104 [ default = false ]
 
 Data was generated with the current R104 chemistry; will run Deepvariant 1.5. Else the PEPPER-Margin-Deepvariant pipeline is run. 

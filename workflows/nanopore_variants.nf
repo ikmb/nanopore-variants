@@ -25,6 +25,8 @@ ch_qc = Channel.from([])
 ch_reports = Channel.from([])
 ch_vcfs = Channel.from([])
 
+params.bed ?: ch_bed = Channel.fromPath(params.bed, checkIfExists: true) : ch_bed = Channel.from([])
+
 workflow NANOPORE_VARIANTS {
 
 	main:
@@ -57,6 +59,7 @@ workflow NANOPORE_VARIANTS {
 	if (params.ont_R104) {
 		DEEPVARIANT(
 			SAMTOOLS_INDEX.out.bam,
+			ch_bed.collect(),
 			ch_fasta.collect()
 		)
 		ch_vcfs = ch_vcfs.mix(DEEPVARIANT.out.vcf)
